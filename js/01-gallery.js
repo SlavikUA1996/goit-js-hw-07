@@ -34,10 +34,10 @@ const modalOpen = basicLightbox.create(
     }
 );
 
-modalOpen.show();
+modal.show();
 
 function onKey(e) {
     if (e.code === "Escape") {
-        modalOpen.close();  
+        modal.close();  
     }
 }
