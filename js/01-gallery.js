@@ -12,3 +12,32 @@ const galleryEl = galleryItems.map(({ preview, original, description }) =>
 </a>
 </div>`
 ).join('');
+
+galleryCreate.insertAdjacentHTML('beforeend', galleryEl)
+
+galleryCreate.addEventListener('click', imgClick);
+
+function imgClick(e) {
+    e.preventDefault();
+
+    if (e.target.nodeName !== 'img') {
+        return;
+ }     
+}
+
+const modalOpen = basicLightbox.create(
+    `<img src = "${e.target.dataset.source}" width = 600 height = 400 margin=10px>`,
+
+    {
+        open: () => window.addEventListener('keydown', onKey),  
+        close: () => window.addEventListener('keydown', onKey),
+    }
+);
+
+modalOpen.show();
+
+function onKey(e) {
+    if (e.code === "Escape") {
+        modalOpen.close();  
+    }
+}
