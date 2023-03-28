@@ -5,10 +5,10 @@ console.log(galleryItems);
 
 const galleryCreate = document.querySelector('.gallery');
 
-const galleryEl = galleryItems.map(({ preview, original, description }) =>
+const galleryEl = galleryItems.map(({ preview, description, original }) =>
     `<div class = "gallery__item">
 <a class = "gallery__link" href = "${original}">
-<img class = "gallery__img" src ="${preview}" alt = "${description}" />
+<img class = "gallery__img" src ="${preview}" data-source="${original}" alt = "${description}" />
 </a>
 </div>`
 ).join('');
@@ -17,27 +17,28 @@ galleryCreate.insertAdjacentHTML('beforeend', galleryEl)
 
 galleryCreate.addEventListener('click', imgClick);
 
-function imgClick(e) {
-    e.preventDefault();
+function imgClick(evt) {
+    evt.preventDefault();
 
-    if (e.target.nodeName !== 'img') {
+    if (evt.target.nodeName !== 'IMG') {
         return;
- }     
-}
-
-const modalOpen = basicLightbox.create(
-    `<img src = "${e.target.dataset.source}" width = 600 height = 400 margin=10px>`,
-
-    {
-        open: () => window.addEventListener('keydown', onKey),  
-        close: () => window.addEventListener('keydown', onKey),
     }
-);
 
-modal.show();
 
-function onKey(e) {
-    if (e.code === "Escape") {
-        modal.close();  
+    const modal = basicLightbox.create(
+        `<img src="${evt.target.dataset.source}" width = 600 height = 400 >`,
+
+        {
+            onOpen: () => window.addEventListener('keydown', onEscKey),
+            onClose: () => window.addEventListener('keydown', onEscKey),
+        }
+    );
+
+    modal.show();
+
+    function onEscKey(evt) {
+        if (evt.code === "Escape") {
+            modal.close();
+        }
     }
 }
